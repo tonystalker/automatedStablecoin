@@ -50,12 +50,4 @@ This smart contract implements an algorithmic stablecoin that **automatically ma
    npx hardhat run scripts/deploy.js --network <network_name>
    ```
 
-## **Testing**
-
-### **Local Testing**:
-
-Run the following command to test the contract locally:
-
-```bash
-npx hardhat test
-```
+   Here it is sepolia
