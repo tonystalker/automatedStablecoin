@@ -35,14 +35,14 @@ contract automatedStablecoin is ERC20, AccessControl, Pausable {
     constructor(
         address _pythAddress,
         bytes32 _priceId
-    ) ERC20("Algorithmic Stablecoin", "ASTABLE") {
+    ) ERC20("CentCoin", "Cent") {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _setupRole(STABILIZER_ROLE, msg.sender);
         
         pyth = IPyth(_pythAddress);
         priceId = _priceId;
+
         
-        // Initial supply minting
         _mint(msg.sender, 1000000 * 10**decimals());
     }
     
