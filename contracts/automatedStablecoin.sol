@@ -1,23 +1,18 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
 import "@pythnetwork/pyth-sdk-solidity/IPyth.sol";
 import "@pythnetwork/pyth-sdk-solidity/PythStructs.sol";
 
-/**
-  @title automatedStablecoin
-  @notice An automated stablecoin that maintains its peg through supply adjustments
-  @dev Used Pyth Network for price feeds
- */
 contract automatedStablecoin is ERC20, AccessControl, Pausable {
     bytes32 public constant STABILIZER_ROLE = keccak256("STABILIZER_ROLE");
     
     // Pyth Network integration
     IPyth public pyth;
-    bytes32 public priceId; 
+    bytes32 public priceId;  
     
     // Stability parameters
     uint256 public constant TARGET_PRICE = 1e18;  // Target price of 1 USD in wei
@@ -35,14 +30,14 @@ contract automatedStablecoin is ERC20, AccessControl, Pausable {
     constructor(
         address _pythAddress,
         bytes32 _priceId
-    ) ERC20("CentCoin", "Cent") {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _setupRole(STABILIZER_ROLE, msg.sender);
+    ) ERC20("Cent Coin", "Cent") {
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(STABILIZER_ROLE, msg.sender);
         
         pyth = IPyth(_pythAddress);
         priceId = _priceId;
-
         
+        // Initial supply minting
         _mint(msg.sender, 1000000 * 10**decimals());
     }
     
@@ -57,10 +52,11 @@ contract automatedStablecoin is ERC20, AccessControl, Pausable {
         );
         
         // Update Pyth price feed
-        pyth.updatePriceFeeds{value: pyth.getUpdateFee(pythUpdateData)}(pythUpdateData);
+        uint256 updateFee = pyth.getUpdateFee(pythUpdateData);
+        pyth.updatePriceFeeds{value: updateFee}(pythUpdateData);
         
         // Get latest price
-        PythStructs.Price memory priceData = pyth.getPrice(priceId);
+        PythStructs.Price memory priceData = pyth.getPriceUnsafe(priceId);
         uint256 currentPrice = uint256(int256(priceData.price));
         
         emit PriceUpdated(currentPrice);

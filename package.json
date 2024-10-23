@@ -8,18 +8,24 @@
     "@nomicfoundation/hardhat-network-helpers": "^1.0.12",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@nomicfoundation/hardhat-verify": "^2.0.11",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-etherscan": "^3.1.8",
     "@typechain/ethers-v6": "^0.5.1",
     "@typechain/hardhat": "^9.1.0",
+    "@types/sinon-chai": "^3.2.12",
     "chai": "^4.5.0",
-    "ethers": "^6.13.4",
+    "dotenv": "^16.4.5",
+    "ethereum-waffle": "^4.0.10",
     "hardhat": "^2.22.14",
     "hardhat-gas-reporter": "^1.0.10",
     "solidity-coverage": "^0.8.13",
     "typechain": "^8.3.2"
   },
   "dependencies": {
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
     "@openzeppelin/contracts": "^5.1.0",
     "@pythnetwork/pyth-sdk-solidity": "^4.0.0",
+    "ethers": "^5.7.2",
     "glob": "^9.3.5"
   }
 }
